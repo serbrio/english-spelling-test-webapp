@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Changepwd
+{% endblock %}
+
+{% block main %}
+    <h5>Changing password for: <span class="badge text-bg-secondary">{{ username }}</span></h5>
+    <div class="mb-3"></div>
+    <form action="/changepwd" method="post">
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" name="password" placeholder="Current password" type="password" required>
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" name="new_password" placeholder="New password" type="password" required>
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" name="confirmation" placeholder="Confirm new password" type="password" required>
+        </div>
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+{% endblock %}

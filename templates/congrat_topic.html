@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Topic done
+{% endblock %}
+
+{% block main %}
+    <header><h3>{{ message }}</h3></header>
+    <div class="w-auto p-1 text-secondary-emphasis bg-secondary-subtle border border-secondary-subtle rounded-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-auto">
+                    <form action="/" method="get">
+                        <button type="submit" autofocus class="btn btn-secondary">Back</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,148 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Portfolio
+{% endblock %}
+
+{% block main %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip({
+                placement: "right",
+                html: true,
+            });
+        });
+    </script>
+
+    <div class="container text-start">
+        {% for block in grouped %}
+            <div class="mx-auto shadow w-50 p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 mb-4">
+                <header><h3>{{ block }}</h3></header>
+                {% for topic in grouped[block] %}
+                        {% if topic["status_id"] == None %}
+                            <div class="shadow w-100 p-2 text-secondary-emphasis bg-secondary-subtle border border-secondary-subtle rounded-3 mb-2">
+                                <div class="container">
+
+                                        <div class="w-100 col-12 col-md-auto">
+                                            <form action="/spelling" method="post">
+                                                <input type="hidden" name="block_id" value="{{ topic['block_id'] }}"/>
+                                                <input type="hidden" name="topic_id" value="{{ topic['id'] }}"/>
+                                                <input type="hidden" name="topicname" value="{{ topic['topicname'] }}"/>
+                                                <input type="hidden" name="blockname" value="{{ topic['blockname'] }}"/>
+                                                <button type="submit" class="shadow btn btn-secondary">{{ topic['topicname'] }}</button>
+                                                <button type="button" class="btn btn-outline-grey btn-sm" data-toggle="tooltip" title='Words amount: {{ topic["words_count"] }}<br>Points: 0 of {{ topic["max_points"] }}'>&#9432;</button>
+                                            </form>
+                                        </div>
+
+                                </div>
+                            </div>
+                        {% elif topic["status_id"] == 2 and highlighted|int == topic["id"] %}
+                            <div class="shadow w-100 p-2 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 mb-2">
+                                <div class="container">
+
+                                        <div class="w-100 col-12 col-md-auto">
+                                            <form action="/spelling" method="post">
+                                                <input type="hidden" name="block_id" value="{{ topic['block_id'] }}"/>
+                                                <input type="hidden" name="topic_id" value="{{ topic['id'] }}"/>
+                                                <input type="hidden" name="topicname" value="{{ topic['topicname'] }}"/>
+                                                <input type="hidden" name="blockname" value="{{ topic['blockname'] }}"/>
+                                                <input type="hidden" name="redo" value="1"/>
+                                                {% if topic["cur_points"] == topic["max_points"] %}
+                                                    <button type="submit" class="shadow btn btn-outline-success position-relative mb-2" id="highlighted">
+                                                        {{ topic["topicname"] }}
+                                                        <span class="blinking badge bg-success">Super!</span>
+                                                    </button>
+                                                {% else %}
+                                                    <button type="submit" class="shadow btn btn-outline-success position-relative mb-2" id="highlighted">
+                                                        {{ topic["topicname"] }}
+                                                        <span class="blinking badge bg-info">You can do better!</span>
+                                                    </button>
+                                                {% endif %}
+                                                <button type="button" class="btn btn-outline-grey btn-sm" data-toggle="tooltip" title="Words amount: {{ topic['words_count'] }}<br>Best points: {{ topic['best_points'] }} of {{ topic['max_points'] }}">&#9432;</button>
+                                                <div class="shadow progress">
+                                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:{{ topic['best_points'] * 100 / topic['max_points'] }}%"></div>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                </div>
+                            </div>
+                            <script>
+                                const highlighted = document.getElementById('highlighted');
+                                highlighted.scrollIntoView();
+                            </script>
+                        {% elif topic["status_id"] == 2 and highlighted|int != topic["id"] %}
+                            <div class="shadow w-100 p-2 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 mb-2">
+                                <div class="container">
+
+                                        <div class="w-100 col-12 col-md-auto">
+                                            <form action="/spelling" method="post">
+                                                <input type="hidden" name="block_id" value="{{ topic['block_id'] }}"/>
+                                                <input type="hidden" name="topic_id" value="{{ topic['id'] }}"/>
+                                                <input type="hidden" name="topicname" value="{{ topic['topicname'] }}"/>
+                                                <input type="hidden" name="blockname" value="{{ topic['blockname'] }}"/>
+                                                <input type="hidden" name="redo" value="1"/>
+                                                <button type="submit" class="shadow btn btn-outline-success mb-2">{{ topic["topicname"] }}</button>
+                                                <button type="button" class="btn btn-outline-grey btn-sm" data-toggle="tooltip" title="Words amount: {{ topic['words_count'] }}<br>Best points: {{ topic['best_points'] }} of {{ topic['max_points'] }}">&#9432;</button>
+                                                <div class="shadow progress">
+                                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:{{ topic['best_points'] * 100 / topic['max_points'] }}%">
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                </div>
+                            </div>
+                        {% else %}
+                                {% if topic["best_points"] == 0 %}
+                                    <div class="shadow w-100 p-2 text-warning-emphasis bg-warning-subtle border border-warning-subtle rounded-3 mb-2">
+                                        <div class="container">
+
+                                                <div class="w-100 col-12 col-md-auto">
+                                                    <form action="/spelling" method="post">
+                                                        <input type="hidden" name="block_id" value="{{ topic['block_id'] }}"/>
+                                                        <input type="hidden" name="topic_id" value="{{ topic['id'] }}"/>
+                                                        <input type="hidden" name="topicname" value="{{ topic['topicname'] }}"/>
+                                                        <input type="hidden" name="blockname" value="{{ topic['blockname'] }}"/>
+                                                        <button type="submit" class="shadow btn btn-warning mb-2">{{ topic['topicname'] }}</button>
+                                                        <button type="button" class="btn btn-outline-grey btn-sm" data-toggle="tooltip" title="Words amount: {{ topic['words_count'] }}<br>Points: {{ topic['cur_points'] }} of {{ topic['max_points'] }}">&#9432;</button>
+                                                        <div class="shadow progress">
+                                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:{{ topic['cur_points'] * 100 / topic['max_points'] }}%">
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="shadow w-100 p-2 text-warning-emphasis bg-warning-subtle border border-warning-subtle rounded-3 mb-2">
+                                        <div class="container">
+
+                                                <div class="w-100 col-12 col-md-auto">
+                                                    <form action="/spelling" method="post">
+                                                        <input type="hidden" name="block_id" value="{{ topic['block_id'] }}"/>
+                                                        <input type="hidden" name="topic_id" value="{{ topic['id'] }}"/>
+                                                        <input type="hidden" name="topicname" value="{{ topic['topicname'] }}"/>
+                                                        <input type="hidden" name="blockname" value="{{ topic['blockname'] }}"/>
+                                                        <button type="submit" class="shadow btn btn-warning mb-2">{{ topic["topicname"] }}</button>
+                                                        <button type="button" class="btn btn-outline-grey btn-sm" data-toggle="tooltip" title="Words amount: {{ topic['words_count'] }}<br>Current points: {{ topic['cur_points'] }} of {{ topic['max_points'] }}<br><em>Best points: {{ topic['best_points'] }} of {{ topic['max_points'] }}</em>">&#9432;</button>
+                                                        <div class="shadow progress">
+                                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:{{ topic['cur_points'] * 100 / topic['max_points'] }}%">
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                        </div>
+                                    </div>
+                                {% endif %}
+                        {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

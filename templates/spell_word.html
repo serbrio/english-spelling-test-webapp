@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Spell word
+{% endblock %}
+
+{% block main %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="{{url_for('static', filename='jquery.js') }}">\x3C/script>')</script>
+
+    <script>
+        var clicks = 0;
+        var audio = new Audio("https://" + document.domain + "/audio/" + {{ word_id }});
+
+        function playById() {
+            audio.play();
+        };
+
+        $(document).ready(playById);
+
+        $(function(){
+            $("#getHint").on("click",function(event){
+                clicks -= 1;
+                $.ajax({
+                    url: "{{ url_for('hint') }}", //your url
+                    method: "GET",
+                    data: {word_id: {{ word_id }}, topic_id: {{ topic_id }} },
+                    success: function(data){
+                        document.getElementById("hint").innerHTML = data;
+                    },
+                    error: function(){
+                        alert("Something went wrong...");
+                    }
+                });
+            });
+        });
+    </script>
+
+    <div class="container text-start">
+        <div class="mx-auto shadow w-50 p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 mb-4">
+            <header><h3>{{ blockname }}</h3></header>
+            <div class="shadow w-100 p-2 text-secondary-emphasis bg-secondary-subtle border border-secondary-subtle rounded-3 mb-2">
+                <div class="container">
+                    <button type="button" class="shadow btn btn-warning mb-2 p-2">{{ topicname }}</button>
+
+                        <div class="col-12 col-md-auto p-2">
+                            <form action="/spelled" method="post">
+                                <div class="mb-2">
+                                    <input type="hidden" name="topicname" value="{{ topicname }}"/>
+                                    <input type="hidden" name="blockname" value="{{ blockname }}"/>
+                                    <input type="hidden" name="topic_id" value="{{ topic_id }}"/>
+                                    <input type="hidden" name="word_id" value="{{ word_id }}"/>
+
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <button class="shadow btn btn-outline-secondary" onclick="playById(); document.getElementById('input-field').focus();" type="button">&#128266;</button>
+                                        </div>
+
+                                        <input type="text" autocomplete="off" autofocus class="form-control mx-2 rounded-3" id="input-field" placeholder="Your input..." name="spelling_result" aria-label="input-field" aria-describedby="basic-addon2" input-border-width=>
+
+                                        <div class="input-group-append">
+                                          <button class="shadow btn btn-outline-secondary" type="submit">OK</button>
+                                          <button class="shadow btn btn-outline-secondary" id="getHint" onclick="playById(); document.getElementById('input-field').focus();" type="button">Hint</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <h5 align="center"><a id="hint"></a></h5>
+                        </div>
+
+                        <form action="/" method="get">
+                            <button type="submit" class="btn btn-outline-secondary">Stop</button>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

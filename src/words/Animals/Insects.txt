@@ -1,0 +1,13 @@
+butterfly
+fly
+bee
+wasp
+ant
+bumblebee
+honeybee
+beetle
+flea
+tick
+ladybug
+dragonfly
+cockroach

@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Word done
+{% endblock %}
+
+{% block main %}
+    <header><h3>{{ Word does not exist. }}</h3></header>
+    <p></p>
+    <picture>
+        <source srcset="https://fonts.gstatic.com/s/e/notoemoji/latest/1f440/512.webp" type="image/webp">
+        <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f440/512.gif" alt="👀" width="128" height="128">
+      </picture>
+    <p></p>
+    <div class="mx-auto shadow w-50 p-3 text-secondary-emphasis bg-secondary-subtle border border-secondary-subtle rounded-3">
+        <div class="container">
+            <div class="row">
+                <div class="w-20 col-12 col-md-auto">
+                    <form action="/spelling" method="post">
+                        <input type="hidden" name="topic_id" value="{{ topic_id }}"/>
+                        <input type="hidden" name="topicname" value="{{ topicname }}"/>
+                        <input type="hidden" name="blockname" value="{{ blockname }}"/>
+                        <button type="submit" autofocus class="btn btn-secondary">Next word</button>
+                    </form>
+                </div>
+                <div class="w-20 col-12 col-md-auto">
+                    <form action="/" method="get">
+                        <button type="submit" class="btn btn-secondary">Stop</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

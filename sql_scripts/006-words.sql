@@ -1,0 +1,7 @@
+CREATE TABLE words (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    word TEXT NOT NULL,
+    link TEXT NOT NULL
+    );
+
+CREATE UNIQUE INDEX word_unique ON words (word);
