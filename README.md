@@ -1,6 +1,7 @@
 # EGNLISH SPELLING TEST WEBAPP
 
 #### Video Demo https://youtu.be/55iRJPvU8yA
+This is my final project for the [CS50’s Introduction to Computer Science](https://cs50.harvard.edu/x/2024/).
 
 ## Project file structure
 + [sql_scripts/](./sql_scripts/)
@@ -529,7 +530,7 @@ info in **words_stats** was not updated.\
 It was critilal for those topics, which has been ever started by a user:\
 theirs info got updated in **topics** (i.e. *words_count*, *max_points* updated in **topics**),\
 but was not updated in **words_stats** (i.e. record with new *word_id* was missing).\
-STATE: RESOLVED
+STATE: RESOLVED\
 SOLUTION:\
 to the TRIGGER "update_topics_and_wordsstats_after_word_insert" in [010-trigger-on-topics-words.sql](./sql_scripts/010-trigger-on-topics-words.sql)\
 added the action of INSERT a new recording of *word_id*, *topic_id* into **words_stats** \
