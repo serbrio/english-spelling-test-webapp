@@ -2,6 +2,6 @@ Flask
 Flask-Session
 pytz
 requests
-sqlite3
+#sqlite3
 pytest
 wkt_scraper
