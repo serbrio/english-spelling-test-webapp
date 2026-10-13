@@ -97,7 +97,7 @@ echo "+                                                      +"
 echo "+                   Populating DB...                   +"
 echo "+                                                      +"
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-python3.12 ./populateDB.py -db $db
+python ./populateDB.py -db $db
 echo -e "\nDB populating FINISHED."
 
 echo
@@ -106,5 +106,5 @@ echo "+                                                      +"
 echo "+                   Getting audio...                   +"
 echo "+                                                      +"
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-python3.12 ./audio_downloader.py -db $db
+python ./audio_downloader.py -db $db
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
