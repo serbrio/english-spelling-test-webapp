@@ -24,7 +24,6 @@ def download_audio(word: dict, headers, filepath):
         total=3,
         backoff_factor=0.2,
         #status_forcelist=[502, 503, 504],
-        allowed_methods={"GET"},
         respect_retry_after_header=True
     )
     s.mount(word['link'], HTTPAdapter(max_retries=retries))
