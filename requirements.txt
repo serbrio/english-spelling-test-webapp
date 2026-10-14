@@ -4,3 +4,4 @@ pytz
 requests
 #sqlite3
 pytest
+urllib3
