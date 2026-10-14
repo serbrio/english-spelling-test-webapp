@@ -46,7 +46,7 @@ def process_downloading(words, audio_dir):
             print(f"Exists: {word["word"]} ({filepath})")
         else:
             fails += download_audio(word, headers, filepath)
-            sleep(0.1) # to not overload wikimedia :)
+            sleep(1) # to not overload wikimedia :)
     print("=" * 30)
     print(f"TOTAL: {len(words) - fails} of {len(words)} OK.")
     print(f"FAILED: {fails}")
