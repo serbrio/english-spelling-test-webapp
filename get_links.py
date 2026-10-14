@@ -43,7 +43,7 @@ class GetLinks:
 
 		for media in res_json['files']:
 			if media['preferred']['mediatype'] == 'AUDIO':
-				return media['file_description_url']
+				return media['preferred']['url']
 		# if 'pronunciation' is empty [] or does not contain
 		# corresponding values, raise FileNotFoundError
 		raise FileNotFoundError
