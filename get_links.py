@@ -2,6 +2,8 @@ import concurrent.futures
 import threading
 import requests
 
+from urllib.parse import urlparse
+
 import time
 
 
@@ -28,10 +30,10 @@ class GetLinks:
     	If link not found, a FileNotFoundError is raised.
 		"""
 		
-		url = 'https://en.wiktionary.org/w/rest.php/v1/page/' + word + '/links/media'
+		wiktionary_url = 'https://en.wiktionary.org/w/rest.php/v1/page/' + word + '/links/media'
 		headers = {'User-Agent': 'EnglishSpelling/0.0 (https://github.com/serbrio/english-spelling-test-webapp)'}
 		session = cls.thread_local.session = requests.Session()
-		response = session.get(url=url, headers=headers)
+		response = session.get(url=wiktionary_url, headers=headers)
 
 		# raise FileNotFoundError, if status not OK
 		if response.status_code != 200:
@@ -42,8 +44,12 @@ class GetLinks:
 		# TODO: get image link
 
 		for media in res_json['files']:
-			if media['preferred']['mediatype'] == 'AUDIO':
-				return media['preferred']['url']
+			if media['original']['mediatype'] == 'AUDIO':
+				media_url = media['original']['url']
+				# parse url, get rid of 'http' or '//' prefix
+				media_url_parsed = urlparse(media_url)
+				result_link = media_url_parsed.netloc + media_url_parsed.path
+				return result_link
 		# if 'pronunciation' is empty [] or does not contain
 		# corresponding values, raise FileNotFoundError
 		raise FileNotFoundError
