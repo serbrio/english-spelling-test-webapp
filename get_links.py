@@ -46,9 +46,8 @@ class GetLinks:
 		for media in res_json['files']:
 			if media['original']['mediatype'] == 'AUDIO':
 				media_url = media['original']['url']
-				# parse url, get rid of 'http' or '//' prefix
 				media_url_parsed = urlparse(media_url)
-				result_link = media_url_parsed.netloc + media_url_parsed.path
+				result_link = 'https://' + media_url_parsed.netloc + media_url_parsed.path
 				return result_link
 		# if 'pronunciation' is empty [] or does not contain
 		# corresponding values, raise FileNotFoundError
