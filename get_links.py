@@ -1,6 +1,6 @@
 import concurrent.futures
 import threading
-import scraper
+import requests
 
 import time
 
@@ -27,16 +27,23 @@ class GetLinks:
 		with pronunciation of an English "word".
     	If link not found, a FileNotFoundError is raised.
 		"""
-		session = cls.thread_local.session = scraper.Scraper()
-		response = session.scrape(word) # raises FileNotFoundError, when gets HTTP 404
+		
+		url = 'https://en.wiktionary.org/w/rest.php/v1/page/' + word + '/links/media'
+		headers = {'User-Agent': 'EnglishSpelling/0.0 (https://github.com/serbrio/english-spelling-test-webapp)'}
+		session = cls.thread_local.session = requests.Session()
+		response = session.get(url=url, headers=headers)
+
+		# raise FileNotFoundError, if status not OK
+		if response.status_code != 200:
+			raise FileNotFoundError
+		
+		res_json = response.json()
 
 		# TODO: get image link
 
-		for data_type in response['pronunciation']:
-			for d in data_type['values']:
-				if d['type'] in ['audio/wav', 'audio/ogg', 'audio/mpeg']:
-					link = "https:" + d['value']
-					return link
+		for media in res_json['files']:
+			if media['preferred']['mediatype'] == 'AUDIO':
+				return media['file_description_url']
 		# if 'pronunciation' is empty [] or does not contain
 		# corresponding values, raise FileNotFoundError
 		raise FileNotFoundError
