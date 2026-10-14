@@ -4,4 +4,3 @@ pytz
 requests
 #sqlite3
 pytest
-wkt_scraper
