@@ -41,8 +41,8 @@ env.bak/
 venv.bak/
 
 # DB
-*.db
+#*.db
 
 # Project specific
-src/audio/
+#src/audio/
 src/images/ 
