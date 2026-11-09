@@ -10,7 +10,10 @@
 
     <script>
         var clicks = 0;
-        var audio = new Audio("https://" + document.domain + "/audio/" + {{ word_id }});
+	var url = window.location.href;
+	var arr = url.split("/");
+	var audio_url = arr[0] + '//' + arr[2] + "/audio/" + {{word_id }};
+        var audio = new Audio(audio_url);
 
         function playById() {
             audio.play();
