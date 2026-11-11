@@ -1,0 +1,24 @@
+name: Release english-spelling-test-webapp to render.com
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - 'README.md'
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Deploy
+        # Run this step only if the branch is master
+        if: github.ref == 'refs/heads/master'
+        env:
+          deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          curl "$deploy_url"
