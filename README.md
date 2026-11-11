@@ -1,7 +1,6 @@
 # EGNLISH SPELLING TEST WEBAPP
 
-#### [Here you can try application](https://english-spelling-test-webapp.onrender.com/)
-Credentials: test/test
+#### [Here you can try application](https://english-spelling-test-webapp.onrender.com/) (credentials: test/test)
 
 #### Video Demo https://youtu.be/55iRJPvU8yA
 This is my final project for the [CS50’s Introduction to Computer Science](https://cs50.harvard.edu/x/2024/).
